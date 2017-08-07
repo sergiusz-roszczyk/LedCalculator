@@ -50,8 +50,8 @@ public class Controller {
     private XYChart.Series<String, Number> linearSeries = new XYChart.Series<>();
 
     private IntegerProperty inputLevels = new SimpleIntegerProperty( 15 );
-    private DoubleProperty gamma[] = {new SimpleDoubleProperty( 1.8 ), new SimpleDoubleProperty( 1.8 ), new SimpleDoubleProperty( 1.8 )};
-    private IntegerProperty maxOutputLevel[] = {new SimpleIntegerProperty( 255 ), new SimpleIntegerProperty( 255 ), new SimpleIntegerProperty( 255 )};
+    private DoubleProperty gamma[] = {new SimpleDoubleProperty( 2.3 ), new SimpleDoubleProperty( 2.2 ), new SimpleDoubleProperty( 2.1 )};
+    private IntegerProperty maxOutputLevel[] = {new SimpleIntegerProperty( 255 ), new SimpleIntegerProperty( 235 ), new SimpleIntegerProperty( 180 )};
 
     public Controller() {
     }
