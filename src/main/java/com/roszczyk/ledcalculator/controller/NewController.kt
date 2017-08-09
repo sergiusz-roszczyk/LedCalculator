@@ -73,25 +73,33 @@ class NewController {
     }
 
     private fun handleCalculate() {
-
-        val values: Array<List<XYChart.Data<String, Number>>> = arrayOf(
-                calculateOutputLevels(inputLevels.get(), maxOutputLevel[R].get(), gamma[R].doubleValue()),
-                calculateOutputLevels(inputLevels.get(), maxOutputLevel[G].get(), gamma[G].doubleValue()),
-                calculateOutputLevels(inputLevels.get(), maxOutputLevel[B].get(), gamma[B].doubleValue())
-        )
+        val values = calculateRgbValues()
+        val totalMaxOutputLevel = maxOutputLevel.asList().map(IntegerProperty::get).max() ?: 255
 
         dataTableTA.text = formatConstArrays(inputLevels.get(), gamma, maxOutputLevel, values)
+        updateAxisBounds(totalMaxOutputLevel)
+        updateSeries(values, totalMaxOutputLevel)
+    }
 
+    private fun calculateRgbValues(): Array<List<XYChart.Data<String, Number>>> {
+        return (0 until gamma.size).map {
+            calculateOutputLevels(inputLevels.get(), maxOutputLevel[it].get(), gamma[it].doubleValue()).map {
+                XYChart.Data(it.first, it.second)
+            }
+        }.toTypedArray()
+    }
+
+    private fun updateAxisBounds(totalMaxOutputLevel: Int) {
         val yAxis = outputChart.yAxis as NumberAxis
         yAxis.lowerBound = 0.0
-        val totalMaxOutputLevel: Int = maxOutputLevel.asList().map(IntegerProperty::get).max() ?: 255
-
         yAxis.upperBound = totalMaxOutputLevel.toDouble()
+    }
+
+    private fun updateSeries(values: Array<List<XYChart.Data<String, Number>>>, totalMaxOutputLevel: Int) {
         series[R_SERIES].data.setAll(values[R])
         series[G_SERIES].data.setAll(values[G])
         series[B_SERIES].data.setAll(values[B])
-        series[L_SERIES].data.setAll(calculateOutputLevels(inputLevels.get(), totalMaxOutputLevel, 1.0))
-
+        series[L_SERIES].data.setAll(calculateOutputLevels(inputLevels.get(), totalMaxOutputLevel, 1.0).map { XYChart.Data(it.first, it.second) })
     }
 
 }
