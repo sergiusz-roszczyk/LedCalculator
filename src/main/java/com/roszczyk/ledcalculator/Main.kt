@@ -1,5 +1,6 @@
 package com.roszczyk.ledcalculator
 
+import com.roszczyk.ledcalculator.controller.NewController
 import javafx.application.Application
 import javafx.fxml.FXMLLoader
 import javafx.scene.Parent
