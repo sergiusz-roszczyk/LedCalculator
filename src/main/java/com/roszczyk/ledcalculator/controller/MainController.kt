@@ -2,10 +2,7 @@ package com.roszczyk.ledcalculator.controller
 
 import com.roszczyk.ledcalculator.util.calculateOutputLevels
 import com.roszczyk.ledcalculator.util.formatConstArrays
-import javafx.beans.property.DoubleProperty
-import javafx.beans.property.IntegerProperty
-import javafx.beans.property.SimpleDoubleProperty
-import javafx.beans.property.SimpleIntegerProperty
+import javafx.beans.property.*
 import javafx.event.ActionEvent
 import javafx.event.EventHandler
 import javafx.fxml.FXML
@@ -13,6 +10,7 @@ import javafx.scene.chart.LineChart
 import javafx.scene.chart.NumberAxis
 import javafx.scene.chart.XYChart
 import javafx.scene.control.Button
+import javafx.scene.control.CheckBox
 import javafx.scene.control.TextArea
 import javafx.scene.control.TextField
 import javafx.util.converter.NumberStringConverter
@@ -48,11 +46,14 @@ class NewController {
     private lateinit var outputChart: LineChart<String, Number>
     @FXML
     private lateinit var dataTableTA: TextArea
+    @FXML
+    private lateinit var progmemCB: CheckBox
 
     private val series: Array<XYChart.Series<String, Number>> = arrayOf(XYChart.Series(), XYChart.Series(), XYChart.Series(), XYChart.Series())
     private val inputLevels: IntegerProperty = SimpleIntegerProperty(15)
     private val gamma: Array<DoubleProperty> = arrayOf(SimpleDoubleProperty(2.3), SimpleDoubleProperty(2.2), SimpleDoubleProperty(2.1))
     private val maxOutputLevel = arrayOf<IntegerProperty>(SimpleIntegerProperty(255), SimpleIntegerProperty(235), SimpleIntegerProperty(180))
+    private val progmem: BooleanProperty = SimpleBooleanProperty(false)
 
     fun initialize(): Unit {
         outputChart.yAxis.isAutoRanging = false
@@ -69,6 +70,7 @@ class NewController {
         outputLevelRTF.textProperty().bindBidirectional(maxOutputLevel[R], NumberStringConverter())
         outputLevelGTF.textProperty().bindBidirectional(maxOutputLevel[G], NumberStringConverter())
         outputLevelBTF.textProperty().bindBidirectional(maxOutputLevel[B], NumberStringConverter())
+        progmemCB.selectedProperty().bindBidirectional(progmem)
         calculateBT.onAction = EventHandler<ActionEvent> { this.handleCalculate() }
     }
 
@@ -76,7 +78,7 @@ class NewController {
         val values = calculateRgbValues()
         val totalMaxOutputLevel = maxOutputLevel.asList().map(IntegerProperty::get).max() ?: 255
 
-        dataTableTA.text = formatConstArrays(inputLevels.get(), gamma, maxOutputLevel, values)
+        dataTableTA.text = formatConstArrays(progmem.get(), inputLevels.get(), gamma, maxOutputLevel, values)
         updateAxisBounds(totalMaxOutputLevel)
         updateSeries(values, totalMaxOutputLevel)
     }

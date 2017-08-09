@@ -19,7 +19,7 @@
         <ColumnConstraints percentWidth="65.0"/>
     </columnConstraints>
     <VBox spacing="10.0" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.vgrow="ALWAYS">
-        <Label>Parametry:</Label>
+        <Label style="-fx-font-size: 24px">Parametry:</Label>
         <HBox spacing="5.0">
             <Label text="Maks wejście:" prefWidth="110.0"/>
             <TextField fx:id="inputLevelsTF" alignment="BASELINE_RIGHT" text="15" prefWidth="110.0"/>
@@ -48,12 +48,16 @@
             <Label text="Poziom maks. B:" prefWidth="110.0"/>
             <TextField fx:id="outputLevelBTF" alignment="BASELINE_RIGHT" text="255" prefWidth="110.0"/>
         </HBox>
+        <HBox spacing="5.0">
+            <Label text="PROGMEM" prefWidth="110.0"/>
+            <CheckBox fx:id="progmemCB"/>
+        </HBox>
         <HBox alignment="BASELINE_LEFT">
             <Button fx:id="calculateBT" text="Przelicz" VBox.vgrow="ALWAYS"/>
         </HBox>
     </VBox>
     <VBox spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
-        <Label>Wykres:</Label>
+        <Label style="-fx-font-size: 24px">Wykres:</Label>
         <LineChart fx:id="outputChart">
             <xAxis>
                 <CategoryAxis side="BOTTOM"/>
